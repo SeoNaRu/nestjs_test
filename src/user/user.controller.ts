@@ -13,7 +13,7 @@ export class UserController {
     try {
       return response.status(HttpStatus.OK).json({
         message: 'SignUp completed',
-        signupResponse: signupResponse,
+        signupResponse,
       });
     } catch (error) {
       return signupResponse;
@@ -33,7 +33,7 @@ export class UserController {
     );
     try {
       return response.status(HttpStatus.OK).json({
-        message: 'SignUp completed',
+        message: 'login completed',
         loginResponse,
       });
     } catch (error) {

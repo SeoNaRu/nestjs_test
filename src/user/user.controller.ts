@@ -9,14 +9,14 @@ export class UserController {
 
   @Post('signup')
   async create(@Res() response, @Body() user: UserSchema): Promise<UserSchema> {
-    const signupResponse = this.usersService.create(user, response);
+    const signupResponse = await this.usersService.create(user);
     try {
       return response.status(HttpStatus.OK).json({
         message: 'SignUp completed',
-        signupResponse,
+        signupResponse: signupResponse,
       });
     } catch (error) {
-      return signupResponse;
+      return response.status(error.status).json(error.response);
     }
   }
 
@@ -26,20 +26,15 @@ export class UserController {
     @Body('userName') userName: string,
     @Body('userPassword') userPassword: string,
   ): Promise<UserSchema> {
-    const loginResponse = this.usersService.login(
-      userName,
-      userPassword,
-      response,
-    );
+    const loginResponse = await this.usersService.login(userName, userPassword);
+
     try {
       return response.status(HttpStatus.OK).json({
         message: 'login completed',
-        loginResponse,
+        loginResponse: loginResponse,
       });
     } catch (error) {
-      return loginResponse;
+      return response.status(error.status).json(error.response);
     }
-
-    return;
   }
 }
